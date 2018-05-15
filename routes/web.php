@@ -31,7 +31,9 @@ Route::post('/register', 'RegistrationController@store');
 
 Route::get('/login', 'SessionsController@create');
 Route::post('/login', 'SessionsController@store');
-Route::get('/logout', 'SessionsController@destroy');
+Route::get('/logout', 'SessionsController@destroy')->name('logout');
+
+Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
 
 
 

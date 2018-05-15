@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Post;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Repositories\Posts;
 
 use Carbon\Carbon;
@@ -80,6 +82,22 @@ class PostsController extends Controller
         // and then redirect to the home page:
 
             // return redirect('/');
+
+    }
+
+    public function getDeletePost($post_id){
+
+        $post = Post::where('id', $post_id)->first(); // ('id', '$post_id') po default-u je '=='
+
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
+        $post->delete();
+
+        return redirect('/');
 
     }
 }

@@ -27,7 +27,6 @@ class SessionsController extends Controller
         // If so, sign them in.
 
         if(! auth()->attempt(request(['email', 'password']))) {
-            //test
 
             return back()->withErrors([
 
