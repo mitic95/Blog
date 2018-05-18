@@ -7,6 +7,7 @@
             <a class="nav-link" href="#">New hires</a>
 
             @if(Auth::check())
+                <a class="nav-link" href="{{ route('profile') }}">Profile</a>
                 <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                 <a class="nav-link ml-auto" href="#">{{ Auth::user()->name }}</a>
             @endif

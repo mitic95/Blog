@@ -33,6 +33,9 @@ Route::get('/login', 'SessionsController@create');
 Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy')->name('logout');
 
+route::get('/profile', 'UserController@profile')->name('profile');
+route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
+
 Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
 
 
