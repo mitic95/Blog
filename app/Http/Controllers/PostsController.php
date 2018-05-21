@@ -26,7 +26,7 @@ class PostsController extends Controller
 
             ->filter(request(['month', 'year']))
 
-            ->get();
+            ->paginate(2);
 
         return view('posts.index', compact('posts'));
     }

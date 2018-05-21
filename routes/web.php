@@ -36,6 +36,8 @@ Route::get('/logout', 'SessionsController@destroy')->name('logout');
 route::get('/profile', 'UserController@profile')->name('profile');
 route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
 
+Route::get('/lists', 'ListsController@lists')->name('lists');
+
 Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
 
 
