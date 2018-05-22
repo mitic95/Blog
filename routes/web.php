@@ -13,7 +13,7 @@
 
 Route::get('/', 'PostsController@index')->name('home');
 
-Route::get('/posts/create', 'PostsController@create');
+Route::get('/posts/create', 'PostsController@create')->name('create');
 
 Route::post('/posts', 'PostsController@store');
 
@@ -26,10 +26,14 @@ Route::get('/posts/tags/{tag}', 'TagsController@index');
 Route::post('/posts/{post}/comments', 'CommentsController@store');
 
 
-Route::get('/register', 'RegistrationController@create');
+Route::get('/posts/{id}/edit', 'PostsController@edit')->name('edit');
+Route::post('/posts/{id}/edit', 'PostsController@update')->name('update');
+
+
+Route::get('/register', 'RegistrationController@create')->name('register');
 Route::post('/register', 'RegistrationController@store');
 
-Route::get('/login', 'SessionsController@create');
+Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy')->name('logout');
 

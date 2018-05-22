@@ -26,13 +26,21 @@ class PostsController extends Controller
 
             ->filter(request(['month', 'year']))
 
-            ->paginate(2);
+            ->paginate(5);
 
         return view('posts.index', compact('posts'));
     }
 
     public function show(Post $post){
         return view('posts.show', compact('post'));
+    }
+
+    public function edit($id){
+
+        $post = Post::find($id);
+
+        return view('posts.edit', compact('post'));
+
     }
 
     public function create(){
@@ -82,6 +90,25 @@ class PostsController extends Controller
         // and then redirect to the home page:
 
             // return redirect('/');
+
+    }
+
+    public function update($id){
+
+        $this->validate(request(), [
+
+            'title' => 'required',
+
+            'body' => 'required'
+
+        ]);
+
+        $post = Post::find($id);
+        $post->title = request('title');
+        $post->body = request('body');
+        $post->save();
+
+        return redirect('/');
 
     }
 

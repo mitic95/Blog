@@ -8,7 +8,13 @@
 
         @if(Auth::user() == $post->user)
 
-        <a href="{{ route('post-delete', ['post_id' => $post->id]) }}">Delete</a>
+        <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-default">Delete</a>
+
+        <hr>
+
+            <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-default">Edit</a>
+
+            <hr>
 
         @endif
 

@@ -12,7 +12,7 @@ class ListsController extends Controller
 {
     public function lists(){
 
-        $list = Post::where('user_id', Auth::id())->paginate(2);
+        $list = Post::where('user_id', Auth::id())->paginate(3);
 
         return view('posts.list', compact('list'));
 
