@@ -108,6 +108,7 @@ class PostsController extends Controller
         $post->body = request('body');
         $post->save();
 
+
         return redirect('/');
 
     }

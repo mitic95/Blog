@@ -1,7 +1,6 @@
 @extends ('layouts.master')
 
 @section ('content')
-
     <div class="col-sm-8 blog-main">
 
         @foreach($list as $lists)
@@ -31,7 +30,6 @@
         {!! $list->links() !!}
 
     </div><!-- /.blog-main -->
-
 @endsection
 
 @section ('footer')

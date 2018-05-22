@@ -15,6 +15,5 @@ class ListsController extends Controller
         $list = Post::where('user_id', Auth::id())->paginate(3);
 
         return view('posts.list', compact('list'));
-
     }
 }

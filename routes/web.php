@@ -19,16 +19,12 @@ Route::post('/posts', 'PostsController@store');
 
 Route::get('/posts/{post}', 'PostsController@show');
 
-
 Route::get('/posts/tags/{tag}', 'TagsController@index');
-
 
 Route::post('/posts/{post}/comments', 'CommentsController@store');
 
-
 Route::get('/posts/{id}/edit', 'PostsController@edit')->name('edit');
 Route::post('/posts/{id}/edit', 'PostsController@update')->name('update');
-
 
 Route::get('/register', 'RegistrationController@create')->name('register');
 Route::post('/register', 'RegistrationController@store');
