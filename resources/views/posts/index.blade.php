@@ -2,17 +2,57 @@
 
 @section ('content')
 
-            <div class="col-sm-8 blog-main">
+    <div class="col-sm-8 blog-main">
 
-                @foreach ($posts as $post)
+        <div class="col-sm-offset-12" id="products">
 
-                    @include ('posts.post')
+            {!! $posts->links() !!}
 
-                @endforeach
+            @foreach($posts as $post)
 
-                    {!! $posts->links() !!}
+                @include('posts.post')
 
-            </div><!-- /.blog-main -->
+            @endforeach
+
+            {!! $posts->links() !!}
+
+        </div>
+
+        <script>
+
+            // Pagination
+            $(document).on('click','.pagination a', function (e) {
+                e.preventDefault();
+
+                var page = $(this).attr('href').split('page=')[1];
+
+                getProducts(page)
+
+            });
+
+            function getProducts(page) {
+                $.ajax({
+                    url: '/ajax/products?page='+ page
+                }).done(function (data) {
+                    $("#products").html(data);
+
+                    location.hash = page;
+
+                });
+            }
+
+            //function getProducts(page) {
+            //$.get( "/ajax/products/" + page, function( data ) {
+            //$("#products").html();
+            //for(var i = 0; i < data.length; i++) {
+            //$('#products').append('<h3>' + data[i] + '</h3>')
+            //}
+            //});
+            //}
+
+        </script>
+
+    </div><!-- /.blog-main -->
 
 @endsection
 

@@ -3,31 +3,53 @@
 @section ('content')
     <div class="col-sm-8 blog-main">
 
-        @foreach($list as $lists)
+        <div class="col-sm-offset-12" id="products">
 
-            <h2>
+            {!! $list->links() !!}
 
-                <a href="/posts/{{ $lists->id }}">
+            @foreach($list as $lists)
 
-                    {{ $lists->title }}
+                @include('posts.lists')
 
-                </a>
+            @endforeach
 
-            </h2>
+            {!! $list->links() !!}
 
-            <p class="blog-post-meta">
+        </div>
 
-                {{ $lists->user->name }} on
+        <script>
 
-                {{ $lists->created_at->toFormattedDateString() }}
+            // Pagination
+            $(document).on('click','.pagination a', function (e) {
+                e.preventDefault();
 
-            </p>
+                var page = $(this).attr('href').split('page=')[1];
 
-            {{ $lists->body }}
+                getProducts(page)
 
-        @endforeach
+            });
 
-        {!! $list->links() !!}
+            function getProducts(page) {
+                $.ajax({
+                    url: '/lists/ajax/products?page='+ page
+                }).done(function (data) {
+                    $("#products").html(data);
+
+                    location.hash = page;
+
+                });
+            }
+
+            //function getProducts(page) {
+            //$.get( "/ajax/products/" + page, function( data ) {
+            //$("#products").html();
+            //for(var i = 0; i < data.length; i++) {
+            //$('#products').append('<h3>' + data[i] + '</h3>')
+            //}
+            //});
+            //}
+
+        </script>
 
     </div><!-- /.blog-main -->
 @endsection

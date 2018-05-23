@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'PostsController@index')->name('home');
+Route::get('/ajax/products', 'ProductsController@ajax');
 
 Route::get('/posts/create', 'PostsController@create')->name('create');
 
@@ -37,6 +38,7 @@ route::get('/profile', 'UserController@profile')->name('profile');
 route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
 
 Route::get('/lists', 'ListsController@lists')->name('lists');
+Route::get('/lists/ajax/products', 'ListsController@ajax');
 
 Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
 
