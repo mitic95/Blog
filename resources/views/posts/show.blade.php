@@ -40,6 +40,8 @@
 
         @endif
 
+        <hr>
+
         {{ $post->body }}
 
         <hr>

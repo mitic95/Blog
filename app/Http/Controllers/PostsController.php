@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Post;
 
+use App\Tag;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\Posts;
@@ -51,30 +53,41 @@ class PostsController extends Controller
 
         $post = Post::find($id);
 
-        return view('posts.edit', compact('post'));
+        $tags = Tag::all();
+
+        return view('posts.edit', compact('post','tags'));
 
     }
 
     public function create(){
-        return view('posts.create');
+        $tags = Tag::all();
+        return view('posts.create', compact('tags'));
     }
 
-    public function store(){
+    public function store(Request $request){
 
         $this->validate(request(), [
 
             'title' => 'required',
 
-            'body' => 'required'
+            'body' => 'required',
+
+            'tags' => 'required'
 
         ]);
 
 
         auth()->user()->publish(
 
-            new Post(request(['title', 'body']))
+            $post = new Post(request(['title', 'body']))
 
         );
+
+        $post->tags()->sync($request->tags,false);
+
+        // $tags = $request->input('tags', []);
+
+        // $post->tags()->sync($tags, true);
 
 
         // flash message.
@@ -119,6 +132,8 @@ class PostsController extends Controller
         $post->title = request('title');
         $post->body = request('body');
         $post->save();
+
+        $post->tags()->sync(request('tags'));
 
 
         return redirect('/');
