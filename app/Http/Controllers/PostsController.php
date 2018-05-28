@@ -53,6 +53,12 @@ class PostsController extends Controller
 
         $post = Post::find($id);
 
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
         $tags = Tag::all();
 
         return view('posts.edit', compact('post','tags'));
@@ -70,9 +76,7 @@ class PostsController extends Controller
 
             'title' => 'required',
 
-            'body' => 'required',
-
-            'tags' => 'required'
+            'body' => 'required'
 
         ]);
 
@@ -131,9 +135,22 @@ class PostsController extends Controller
         $post = Post::find($id);
         $post->title = request('title');
         $post->body = request('body');
+
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
         $post->save();
 
         $post->tags()->sync(request('tags'));
+
+        session()->flash(
+
+            'message', 'Your post has now updated!'
+
+        );
 
 
         return redirect('/');
