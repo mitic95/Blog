@@ -17,6 +17,12 @@ class UserController extends Controller
 
         $user = Auth::user();
 
+        if(!auth::user()){
+
+            return redirect('/login');
+
+        }
+
         return view('posts.profile', compact('user'));
 
     }
