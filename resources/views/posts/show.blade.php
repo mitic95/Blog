@@ -25,7 +25,6 @@
         @if(count($post->tags))
 
             @foreach($post->tags as $tag)
-
                 <li>
 
                     <a href="/posts/tags/{{ $tag->name }}">
@@ -35,7 +34,6 @@
                     </a>
 
                 </li>
-
             @endforeach
 
         @endif
@@ -51,11 +49,21 @@
             @foreach ($post->comments as $comment)
                     <li class="list-group-item">
 
+                        <div class="form-control">
+
+                        Username:{{ $comment->user->name }}
+
+                        <br>
+
                         <strong>
                             {{ $comment->created_at->diffForHumans() }}: &nbsp;
                         </strong>
 
-                        {{ $comment->body }}
+                        <div class="form-control">
+
+                            {{ $comment->body }}
+
+                        </div>
 
                     </li>
                 @endforeach
