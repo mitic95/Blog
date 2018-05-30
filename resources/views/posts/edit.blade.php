@@ -6,22 +6,20 @@
 
     <div class="col-sm-8 blog-mail">
 
-    <h1>Publish a Post</h1>
+        <h1>Edit a Post</h1>
 
         <hr>
 
-        <form method="POST" action="/posts">
-
+        <form action="{{ route('update', ['post_id' => $post->id]) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" name="title">
+                <input type="text" class="form-control" id="exampleInputEmail1" name="title" value="{{ $post->title }}">
             </div>
-
             <div class="form-group">
                 <label for="body">Body</label>
-                <textarea id="body" name="body" class="form-control"></textarea>
+                <textarea id="body" name="body" class="form-control">{{ $post->body }}</textarea>
             </div>
 
             <div class="form-group">
@@ -45,7 +43,9 @@
 
         <script type="text/javascript">
 
-                $('.select2-selection--multiple').select2();
+            $('.select2-selection--multiple').select2();
+
+            $('.select2-selection--multiple').select2().val({!! json_encode($post->tags()->allRelatedIds()) !!}).trigger('change');
 
         </script>
 

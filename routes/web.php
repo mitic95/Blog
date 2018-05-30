@@ -12,26 +12,35 @@
 */
 
 Route::get('/', 'PostsController@index')->name('home');
+Route::get('/ajax/products', 'ProductsController@ajax');
 
-Route::get('/posts/create', 'PostsController@create');
+Route::get('/posts/create', 'PostsController@create')->name('create');
 
 Route::post('/posts', 'PostsController@store');
 
 Route::get('/posts/{post}', 'PostsController@show');
 
-
 Route::get('/posts/tags/{tag}', 'TagsController@index');
-
 
 Route::post('/posts/{post}/comments', 'CommentsController@store');
 
+Route::get('/posts/{id}/edit', 'PostsController@edit')->name('edit');
+Route::post('/posts/{id}/edit', 'PostsController@update')->name('update');
 
-Route::get('/register', 'RegistrationController@create');
+Route::get('/register', 'RegistrationController@create')->name('register');
 Route::post('/register', 'RegistrationController@store');
 
-Route::get('/login', 'SessionsController@create');
+Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store');
-Route::get('/logout', 'SessionsController@destroy');
+Route::get('/logout', 'SessionsController@destroy')->name('logout');
+
+route::get('/profile', 'UserController@profile')->name('profile');
+route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
+
+Route::get('/lists', 'ListsController@lists')->name('lists');
+Route::get('/lists/ajax/products', 'ListsController@ajax');
+
+Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
 
 
 

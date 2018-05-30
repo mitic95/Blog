@@ -6,6 +6,21 @@
 
         <h1>{{ $post->title }}</h1>
 
+        @if(Auth::user() == $post->user)
+
+
+            <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-default">Delete</a>
+
+
+            <hr>
+
+
+            <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-default">Edit</a>
+
+
+            <hr>
+
+        @endif
 
         @if(count($post->tags))
 
@@ -25,6 +40,7 @@
 
         @endif
 
+        <hr>
 
         {{ $post->body }}
 
@@ -55,7 +71,6 @@
                 <form method="POST" action="/posts/{{ $post->id }}/comments">
 
                     {{ csrf_field() }}
-
 
                     <div class="form-group">
 

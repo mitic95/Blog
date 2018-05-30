@@ -1,20 +1,19 @@
 @extends ('layouts.master')
 
 @section ('content')
-
     <div class="col-sm-8 blog-main">
 
         <div class="col-sm-offset-12" id="products">
 
-            {!! $posts->links() !!}
+            {!! $list->links() !!}
 
-            @foreach($posts as $post)
+            @foreach($list as $lists)
 
-                @include('posts.post')
+                @include('posts.lists')
 
             @endforeach
 
-            {!! $posts->links() !!}
+            {!! $list->links() !!}
 
         </div>
 
@@ -32,7 +31,7 @@
 
             function getProducts(page) {
                 $.ajax({
-                    url: '/ajax/products?page='+ page
+                    url: '/lists/ajax/products?page='+ page
                 }).done(function (data) {
                     $("#products").html(data);
 
@@ -53,7 +52,6 @@
         </script>
 
     </div><!-- /.blog-main -->
-
 @endsection
 
 @section ('footer')

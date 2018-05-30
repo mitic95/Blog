@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Post;
 
+use App\Tag;
+
+use Illuminate\Support\Facades\Auth;
+
 use App\Repositories\Posts;
 
 use Carbon\Carbon;
@@ -24,20 +28,49 @@ class PostsController extends Controller
 
             ->filter(request(['month', 'year']))
 
-            ->get();
+            ->paginate(5);
 
         return view('posts.index', compact('posts'));
+    }
+
+    public function ajax(){
+
+        $posts = Post::latest()
+
+            ->filter(request(['month', 'year']))
+
+            ->paginate(5);
+
+        return view('posts.product', compact('posts'));
+
     }
 
     public function show(Post $post){
         return view('posts.show', compact('post'));
     }
 
-    public function create(){
-        return view('posts.create');
+    public function edit($id){
+
+        $post = Post::find($id);
+
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
+        $tags = Tag::all();
+
+        return view('posts.edit', compact('post','tags'));
+
     }
 
-    public function store(){
+    public function create(){
+        $tags = Tag::all();
+        return view('posts.create', compact('tags'));
+    }
+
+    public function store(Request $request){
 
         $this->validate(request(), [
 
@@ -50,9 +83,15 @@ class PostsController extends Controller
 
         auth()->user()->publish(
 
-            new Post(request(['title', 'body']))
+            $post = new Post(request(['title', 'body']))
 
         );
+
+        $post->tags()->sync($request->tags,false);
+
+        // $tags = $request->input('tags', []);
+
+        // $post->tags()->sync($tags, true);
 
 
         // flash message.
@@ -80,6 +119,57 @@ class PostsController extends Controller
         // and then redirect to the home page:
 
             // return redirect('/');
+
+    }
+
+    public function update($id){
+
+        $this->validate(request(), [
+
+            'title' => 'required',
+
+            'body' => 'required'
+
+        ]);
+
+        $post = Post::find($id);
+        $post->title = request('title');
+        $post->body = request('body');
+
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
+        $post->save();
+
+        $post->tags()->sync(request('tags'));
+
+        session()->flash(
+
+            'message', 'Your post has now updated!'
+
+        );
+
+
+        return redirect('/');
+
+    }
+
+    public function getDeletePost($post_id){
+
+        $post = Post::where('id', $post_id)->first(); // ('id', '$post_id') po default-u je '=='
+
+        if(Auth::user() != $post->user){
+
+            return redirect()->home();
+
+        }
+
+        $post->delete();
+
+        return redirect('/');
 
     }
 }
