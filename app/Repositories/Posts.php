@@ -3,25 +3,21 @@
 namespace App\Repositories;
 
 use App\Post;
-
 use App\Redis;
 
-class Posts {
-
+class Posts
+{
     protected $redis;
 
-    public function __construct(Redis $redis){
-
+    public function __construct(Redis $redis)
+    {
         $this->redis = $redis;
-
     }
 
-    public function all(){
-
+    public function all()
+    {
         // Return all posts.
-
         return Post::all();
-
     }
 
 }

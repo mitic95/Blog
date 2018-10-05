@@ -3,11 +3,7 @@
 namespace App\Http\Requests;
 
 use App\User;
-
 use App\Mail\Welcome;
-
-use Illuminate\Support\Facades\Mail;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegistrationForm extends FormRequest
@@ -47,13 +43,6 @@ class RegistrationForm extends FormRequest
             'email' => request('email'),
             'password' => bcrypt(request('password'))
         ]);
-
-
-        // $user = User::create(
-
-        // request(['name', 'email', 'password'])
-
-        // );
 
         // Sign them in.
 

@@ -12,13 +12,12 @@
 */
 
 Route::get('/', 'PostsController@index')->name('home');
-Route::get('/ajax/products', 'ProductsController@ajax');
+Route::get('/ajax/products', 'PostsController@ajax');
 
 Route::get('/posts/create', 'PostsController@create')->name('create');
 
 Route::post('/posts', 'PostsController@store');
-
-Route::get('/posts/{post}', 'PostsController@show');
+Route::get('/posts/{id}', 'PostsController@show');
 
 Route::get('/posts/tags/{tag}', 'TagsController@index');
 
@@ -29,7 +28,6 @@ Route::post('/posts/{id}/edit', 'PostsController@update')->name('update');
 
 Route::get('/register', 'RegistrationController@create')->name('register');
 Route::post('/register', 'RegistrationController@store');
-
 Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy')->name('logout');
@@ -41,24 +39,3 @@ Route::get('/lists', 'ListsController@lists')->name('lists');
 Route::get('/lists/ajax/products', 'ListsController@ajax');
 
 Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
-
-
-
-/*
- * posts
- *
- * GET /posts
- *
- * GET /posts/create
- *
- * POST /posts
- *
- * GET /posts/{id}/edit
- *
- * GET /posts/{id}
- *
- * PATCH /posts/{id}
- *
- * DELETE /posts/{id}
- *
- * */

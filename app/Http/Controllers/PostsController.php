@@ -2,174 +2,173 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PostService;
 use Illuminate\Http\Request;
-
 use App\Post;
-
 use App\Tag;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
-use App\Repositories\Posts;
-
-use Carbon\Carbon;
-
+/**
+ * Class PostsController
+ * @package App\Http\Controllers
+ */
 class PostsController extends Controller
 {
-    public function __construct(){
-
-        $this->middleware('auth')->except(['index', 'show']);
-
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show', 'ajax']);
     }
 
-    public function index(){
-
-        $posts = Post::latest()
-
-            ->filter(request(['month', 'year']))
-
-            ->paginate(5);
-
+    public function index(Request $request)
+    {
+        //DB::connection()->enableQueryLog();
+        $cacheKey = $this->buildPostsCacheKey($request->all());
+        $posts = Cache::remember($cacheKey, 20, function () {
+            return Post::latest()
+                ->filter(request(['month', 'year']))
+                ->paginate(5);
+        });
+        //$test = DB::getQueryLog();
+        //print_r($test);
         return view('posts.index', compact('posts'));
     }
 
-    public function ajax(){
-
-        $posts = Post::latest()
-
-            ->filter(request(['month', 'year']))
-
-            ->paginate(5);
+    /**
+     * TODO fix month and year
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function ajax(Request $request)
+    {
+        $cacheKey = $this->buildPostsCacheKey($request->all());
+        $posts = Cache::remember($cacheKey, 20, function () {
+            return Post::latest()
+                ->filter(request(['month', 'year']))
+                ->paginate(5);
+        });
 
         return view('posts.product', compact('posts'));
-
     }
 
-    public function show(Post $post){
+    public function generatePostKey(int $id): string
+    {
+        return 'post_' . $id;
+    }
+
+    public function show($id)
+    {
+        $post = Cache::remember($this->generatePostKey($id), 20, function () use ($id)
+        {
+            if (Cache::has($this->generatePostKey($id) . $id)) {
+                return Cache::get($this->generatePostKey($id) . $id);
+            } else {
+                return Post::find($id);
+            }
+        });
+
         return view('posts.show', compact('post'));
     }
 
-    public function edit($id){
-
+    public function edit($id)
+    {
         $post = Post::find($id);
 
-        if(Auth::user() != $post->user){
-
+        if (Auth::user() != $post->user) {
             return redirect()->home();
-
         }
 
         $tags = Tag::all();
 
-        return view('posts.edit', compact('post','tags'));
-
+        return view('posts.edit', compact('post', 'tags'));
     }
 
-    public function create(){
+    public function create()
+    {
         $tags = Tag::all();
+
         return view('posts.create', compact('tags'));
     }
 
-    public function store(Request $request){
-
+    public function store(Request $request, PostService $postService)
+    {
         $this->validate(request(), [
-
-            'title' => 'required',
-
+            'title' => 'required|max:30',
             'body' => 'required'
-
         ]);
 
-
-        auth()->user()->publish(
-
-            $post = new Post(request(['title', 'body']))
-
-        );
+        $postAttributes = $this->getCreatePostAttributesFromRequest($request);
+        $post = $postService->createPost($postAttributes);
 
         $post->tags()->sync($request->tags,false);
 
-        // $tags = $request->input('tags', []);
-
-        // $post->tags()->sync($tags, true);
-
-
-        // flash message.
+        Cache::delete('posts_order_by_created_at_1');
+        Cache::flush();
 
         session()->flash(
-
             'message', 'Your post has now been published'
-
         );
 
-
         return redirect('/');
-
-        // Create a new post using the request data:
-
-            // $post = new Post;
-
-            // $post->title = request('title');
-            // $post->body = request('body');
-
-        // save it to the database:
-
-            // $post->save();
-
-        // and then redirect to the home page:
-
-            // return redirect('/');
-
     }
 
-    public function update($id){
-
+    public function update($id, Request $request, PostService $postService)
+    {
         $this->validate(request(), [
-
             'title' => 'required',
-
             'body' => 'required'
-
         ]);
 
-        $post = Post::find($id);
-        $post->title = request('title');
-        $post->body = request('body');
-
-        if(Auth::user() != $post->user){
-
-            return redirect()->home();
-
-        }
-
+        $user_id = $this->getUserId();
+        $attributes = $this->getUpdatePostAttributesFromRequest($user_id, $id, $request);
+        $post = $postService->updatePost($attributes);
         $post->save();
 
         $post->tags()->sync(request('tags'));
 
+        Cache::delete($this->generatePostKey($id));
+        Cache::flush();
+
         session()->flash(
-
             'message', 'Your post has now updated!'
-
         );
 
-
         return redirect('/');
-
     }
 
-    public function getDeletePost($post_id){
-
-        $post = Post::where('id', $post_id)->first(); // ('id', '$post_id') po default-u je '=='
-
-        if(Auth::user() != $post->user){
-
-            return redirect()->home();
-
-        }
-
+    public function getDeletePost($post_id, PostService $postService)
+    {
+        $attributes = $this->getUserId();
+        $post = $postService->deletePost($attributes)->findOrFail($post_id);
         $post->delete();
 
-        return redirect('/');
+        Cache::delete($this->generatePostKey($post_id));
+        Cache::flush();
 
+        return redirect('/');
+    }
+
+    /**
+     * @param array $requestData
+     * @return string
+     */
+    protected function buildPostsCacheKey(array $requestData)
+    {
+        $key = 'posts_order_by_created_at_';
+
+        $page = 1;
+
+        if (array_key_exists('month', $requestData) && array_key_exists('year', $requestData)) {
+            $key .= $requestData['month'] . '_' . $requestData['year'] . '_';
+        }
+
+        if (array_key_exists('page', $requestData)) {
+            $page = $requestData['page'];
+        }
+
+        $key .= $page;
+
+        return $key;
     }
 }

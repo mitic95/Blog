@@ -16,13 +16,11 @@ class Post extends Model
 
     public function user() // $comment->post->user
     {
-
         return $this->belongsTo(User::class);
-
     }
 
-    public function addComment($body){
-
+    public function addComment($body)
+    {
         $this->comments()->create(compact('body'));
 
         // Comment::create([
@@ -31,8 +29,8 @@ class Post extends Model
        // ]);
     }
 
-    public function scopeFilter($query, $filters){
-
+    public function scopeFilter($query, $filters)
+    {
         if (isset($filters['month'])){
             if($month = $filters['month']){
                 $query->whereMonth('created_at', Carbon::parse($month)->month);
@@ -46,24 +44,17 @@ class Post extends Model
         }
     }
 
-    public static function archives(){
-
+    public static function archives()
+    {
         return static::selectRaw('year(created_at) year,monthname(created_at) month,count(*) published')
-
             ->groupBy('year', 'month')
-
             ->orderByRaw('min(created_at) desc')
-
             ->get()
-
             ->toArray();
-
     }
 
-    public function tags(){
-
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class);
-
     }
-
 }
