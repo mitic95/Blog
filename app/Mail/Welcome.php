@@ -8,16 +8,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * Class Welcome
+ * @package App\Mail
+ */
 class Welcome extends Mailable
 {
     use Queueable, SerializesModels;
-
+    /**
+     * @var User
+     */
     public $user;
 
     /**
      * Create a new message instance.
-     *
-     * @return void
+     * Welcome constructor.
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -26,7 +32,6 @@ class Welcome extends Mailable
 
     /**
      * Build the message.
-     *
      * @return $this
      */
     public function build()

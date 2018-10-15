@@ -7,13 +7,17 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * Class WelcomeAgain
+ * @package App\Mail
+ */
 class WelcomeAgain extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
-     *
+     * WelcomeAgain constructor.
      * @return void
      */
     public function __construct()

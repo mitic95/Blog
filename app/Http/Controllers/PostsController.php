@@ -16,11 +16,18 @@ use Illuminate\Support\Facades\Cache;
  */
 class PostsController extends Controller
 {
+    /**
+     * PostsController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show', 'ajax']);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         //DB::connection()->enableQueryLog();
@@ -52,11 +59,19 @@ class PostsController extends Controller
         return view('posts.product', compact('posts'));
     }
 
+    /**
+     * @param int $id
+     * @return string
+     */
     public function generatePostKey(int $id): string
     {
         return 'post_' . $id;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
         $post = Cache::remember($this->generatePostKey($id), 20, function () use ($id)
@@ -71,6 +86,10 @@ class PostsController extends Controller
         return view('posts.show', compact('post'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function edit($id)
     {
         $post = Post::find($id);
@@ -84,6 +103,9 @@ class PostsController extends Controller
         return view('posts.edit', compact('post', 'tags'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $tags = Tag::all();
@@ -91,6 +113,11 @@ class PostsController extends Controller
         return view('posts.create', compact('tags'));
     }
 
+    /**
+     * @param Request $request
+     * @param PostService $postService
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(Request $request, PostService $postService)
     {
         $this->validate(request(), [
@@ -113,6 +140,12 @@ class PostsController extends Controller
         return redirect('/');
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @param PostService $postService
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update($id, Request $request, PostService $postService)
     {
         $this->validate(request(), [
@@ -137,6 +170,11 @@ class PostsController extends Controller
         return redirect('/');
     }
 
+    /**
+     * @param $post_id
+     * @param PostService $postService
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function getDeletePost($post_id, PostService $postService)
     {
         $attributes = $this->getUserId();

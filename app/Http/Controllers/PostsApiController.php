@@ -7,8 +7,15 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Http\Resources\Post as PostResource;
 
+/**
+ * Class PostsApiController
+ * @package App\Http\Controllers
+ */
 class PostsApiController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         $posts = Post::latest()->paginate(5);
@@ -16,6 +23,10 @@ class PostsApiController extends Controller
         return PostResource::collection($posts);
     }
 
+    /**
+     * @param $id
+     * @return PostResource
+     */
     public function show($id)
     {
         $post = Post::findOrFail($id);
@@ -23,6 +34,11 @@ class PostsApiController extends Controller
         return new PostResource($post);
     }
 
+    /**
+     * @param Request $request
+     * @param PostService $postService
+     * @return PostResource
+     */
     public function store(Request $request, PostService $postService)
     {
         $attributes  = $this->getCreatePostAttributesFromRequest($request);
@@ -31,6 +47,12 @@ class PostsApiController extends Controller
         return new PostResource($post);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @param PostService $postService
+     * @return PostResource
+     */
     public function update($id, Request $request, PostService $postService)
     {
         $user_id = $this->getUserId();
@@ -41,6 +63,11 @@ class PostsApiController extends Controller
         return new PostResource($post);
     }
 
+    /**
+     * @param $post_id
+     * @param PostService $postService
+     * @return PostResource
+     */
     public function getDeletePost($post_id, PostService $postService)
     {
         $attributes =  $this->getUserId();

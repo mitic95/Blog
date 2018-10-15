@@ -6,6 +6,10 @@ use App\User;
 use App\Mail\Welcome;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class RegistrationForm
+ * @package App\Http\Requests
+ */
 class RegistrationForm extends FormRequest
 {
     /**

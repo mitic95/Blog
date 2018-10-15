@@ -10,10 +10,18 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class Controller
+ * @package App\Http\Controllers
+ */
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function getCreatePostAttributesFromRequest(Request $request)
     {
         return [
@@ -23,6 +31,12 @@ abstract class Controller extends BaseController
         ];
     }
 
+    /**
+     * @param $user_id
+     * @param $post_id
+     * @param Request $request
+     * @return array
+     */
     public function getUpdatePostAttributesFromRequest($user_id, $post_id, Request $request)
     {
         return [
@@ -41,6 +55,9 @@ abstract class Controller extends BaseController
         return Auth::user();
     }
 
+    /**
+     * @return array
+     */
     public function getUserId()
     {
         return [

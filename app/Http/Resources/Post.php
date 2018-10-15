@@ -4,6 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
+/**
+ * Class Post
+ * @package App\Http\Resources
+ */
 class Post extends Resource
 {
     /**
@@ -23,6 +27,10 @@ class Post extends Resource
         ];
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
     public function with($request){
         return [
             'version' => '1.0.0',

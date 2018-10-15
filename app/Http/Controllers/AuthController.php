@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends Controller
 {
     /**
