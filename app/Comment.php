@@ -2,16 +2,23 @@
 
 namespace App;
 
+/**
+ * Class Comment
+ * @package App
+ */
 class Comment extends Model
 {
     /**
-     * Get the post that owns the comment.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
     {
         return $this->belongsTo(Post::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user() // $comment->user->name
     {
         return $this->belongsTo(User::class);

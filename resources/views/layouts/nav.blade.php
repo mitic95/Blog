@@ -10,7 +10,8 @@
                 <a class="nav-link" href="{{ route('lists') }}">lists</a>
                 <a class="nav-link" href="{{ route('profile') }}">Profile</a>
                 <a class="nav-link" href="{{ route('logout') }}">Logout</a>
-                <a class="nav-link ml-auto" href="#" style="position: relative; padding-left: 50px;">
+                <a class="nav-link ml-auto" href="#" style="position: relative; padding-left: 50px; overflow: hidden;">
+                    <img class="rounded-circle" src="/storage/avatars/{{ Auth::user()->avatar }}" height="25" width="35">
                     {{ Auth::user()->name }}
                 </a>
 

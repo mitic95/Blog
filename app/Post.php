@@ -4,21 +4,31 @@ namespace App;
 
 use Carbon\Carbon;
 
+/**
+ * Class Post
+ * @package App
+ */
 class Post extends Model
 {
     /**
-     * Get the comments for the blog post.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user() // $comment->post->user
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @param $body
+     */
     public function addComment($body)
     {
         $this->comments()->create(compact('body'));
@@ -29,6 +39,10 @@ class Post extends Model
        // ]);
     }
 
+    /**
+     * @param $query
+     * @param $filters
+     */
     public function scopeFilter($query, $filters)
     {
         if (isset($filters['month'])){
@@ -44,6 +58,9 @@ class Post extends Model
         }
     }
 
+    /**
+     * @return mixed
+     */
     public static function archives()
     {
         return static::selectRaw('year(created_at) year,monthname(created_at) month,count(*) published')
@@ -53,6 +70,9 @@ class Post extends Model
             ->toArray();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tags()
     {
         return $this->belongsToMany(Tag::class);

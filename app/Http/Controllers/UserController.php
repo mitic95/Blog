@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Input;
 
 /**
  * Class UserController
@@ -30,9 +28,13 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function update_avatar(Request $request){
+    public function update_avatar(Request $request)
+    {
+        $this->validate($request, [
+           'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
 
         // handle the user upload of avatar
         if($request->hasFile('avatar')){
@@ -43,24 +45,8 @@ class UserController extends Controller
             $user = Auth::User();
             $user->avatar = $filename;
             $user->save();
-
-            return redirect('/profile');
         }
+
         return view('posts.profile', compact('user'));
     }
 }
-/*
-        if(Input::file('avatar'))
-        {
-
-            $image = Input::file('avatar');
-            $filename  = time() . '.' . $image->getClientOriginalExtension();
-            $path = public_path('/uploads/avatars/' . $filename);
-            Image::make($image->getRealPath())->resize(200, 200)->save($path);
-            $user = Auth::user();
-            $user->image = $filename;
-            $user->save();
-        }
-
-        return view('profile', compact('user'));
-*/
