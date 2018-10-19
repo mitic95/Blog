@@ -32,8 +32,8 @@ Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy')->name('logout');
 
-route::get('/profile', 'UserController@profile')->name('profile');
-route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
+route::get('/profile', 'UserProfileController@profile')->name('profile');
+route::post('/profile', 'UserProfileController@update_avatar')->name('update_avatar');
 
 Route::get('/lists', 'ListsController@lists')->name('lists');
 Route::get('/lists/ajax/products', 'ListsController@ajax');

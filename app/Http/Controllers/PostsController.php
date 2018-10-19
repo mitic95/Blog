@@ -6,7 +6,6 @@ use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Tag;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -30,26 +29,25 @@ class PostsController extends Controller
      */
     public function index(Request $request)
     {
-        //DB::connection()->enableQueryLog();
         $cacheKey = $this->buildPostsCacheKey($request->all());
+
         $posts = Cache::remember($cacheKey, 20, function () {
             return Post::latest()
                 ->filter(request(['month', 'year']))
                 ->paginate(5);
         });
-        //$test = DB::getQueryLog();
-        //print_r($test);
+
         return view('posts.index', compact('posts'));
     }
 
     /**
-     * TODO fix month and year
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function ajax(Request $request)
     {
         $cacheKey = $this->buildPostsCacheKey($request->all());
+
         $posts = Cache::remember($cacheKey, 20, function () {
             return Post::latest()
                 ->filter(request(['month', 'year']))

@@ -1,6 +1,7 @@
 @extends ('layouts.master')
 
 @section ('content')
+
     <div class="col-sm-8 blog-main">
 
         <div class="col-sm-offset-12" id="products">
