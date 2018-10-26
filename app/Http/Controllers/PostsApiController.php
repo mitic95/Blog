@@ -41,8 +41,8 @@ class PostsApiController extends Controller
      */
     public function store(Request $request, PostService $postService)
     {
-        $attributes  = $this->getCreatePostAttributesFromRequest($request);
-        $post = $postService->createPost($attributes);
+        $postAttributes = $this->getCreatePostAttributesFromRequest($request);
+        $post = $postService->createPost($postAttributes);
 
         return new PostResource($post);
     }
@@ -55,10 +55,8 @@ class PostsApiController extends Controller
      */
     public function update($id, Request $request, PostService $postService)
     {
-        $user_id = $this->getUserId();
-        $attributes = $this->getUpdatePostAttributesFromRequest($user_id, $id, $request);
-        $post = $postService->updatePost($attributes);
-        $post->save();
+        $postAttributes = $this->getUpdatePostAttributesFromRequest($id, $request);
+        $post = $postService->updatePost($postAttributes);
 
         return new PostResource($post);
     }
@@ -70,9 +68,8 @@ class PostsApiController extends Controller
      */
     public function getDeletePost($post_id, PostService $postService)
     {
-        $attributes =  $this->getUserId();
-        $post = $postService->deletePost($attributes)->findOrFail($post_id);
-        $post->delete();
+        $attributes = $this->getDeletePostAttributesFromRequest($post_id);
+        $post = $postService->deletePost($attributes);
 
         return new PostResource($post);
     }

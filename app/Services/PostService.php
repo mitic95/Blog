@@ -1,16 +1,13 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: marko
- * Date: 6/15/18
- * Time: 10:34 AM
- */
-
 namespace App\Services;
 
 use App\Post;
 
+/**
+ * Class PostService
+ * @package App\Services
+ */
 class PostService
 {
     /**
@@ -26,20 +23,32 @@ class PostService
         return $post;
     }
 
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
     public function updatePost(array $attributes)
     {
         $id = $attributes['id'];
         $user_id = $attributes['user_id'];
-        $post = Post::where($user_id)->findOrFail($id);
-        $post->title = request('title');
-        $post->body = request('body');
+        $post = Post::where('user_id', $user_id)->findOrFail($id);
+        $post->title = $attributes['title'];
+        $post->body = $attributes['body'];
+        $post->save();
 
         return $post;
     }
 
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
     public function deletePost(array $attributes)
     {
-        $post = Post::where($attributes);
+        $user_id = $attributes['user_id'];
+        $post_id = $attributes['id'];
+        $post = Post::where('user_id', $user_id)->findOrFail($post_id);
+        $post->delete();
 
         return $post;
     }

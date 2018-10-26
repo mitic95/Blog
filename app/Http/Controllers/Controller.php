@@ -32,18 +32,29 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param $user_id
      * @param $post_id
      * @param Request $request
      * @return array
      */
-    public function getUpdatePostAttributesFromRequest($user_id, $post_id, Request $request)
+    public function getUpdatePostAttributesFromRequest($post_id, Request $request)
     {
         return [
-            'user_id' => $user_id,
+            'user_id' => $this->getAuthUser()->id,
             'id' => $post_id,
             'title' => $request->input('title'),
             'body' => $request->input('body')
+        ];
+    }
+
+    /**
+     * @param $post_id
+     * @return array
+     */
+    public function getDeletePostAttributesFromRequest($post_id)
+    {
+        return [
+            'user_id' => $this->getAuthUser()->id,
+            'id' => $post_id
         ];
     }
 
@@ -53,15 +64,5 @@ abstract class Controller extends BaseController
     public function getAuthUser(): User
     {
         return Auth::user();
-    }
-
-    /**
-     * @return array
-     */
-    public function getUserId()
-    {
-        return [
-            'user_id' => $this->getAuthUser()->id
-        ];
     }
 }

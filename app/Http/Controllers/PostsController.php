@@ -151,10 +151,8 @@ class PostsController extends Controller
             'body' => 'required'
         ]);
 
-        $user_id = $this->getUserId();
-        $attributes = $this->getUpdatePostAttributesFromRequest($user_id, $id, $request);
-        $post = $postService->updatePost($attributes);
-        $post->save();
+        $postAttributes = $this->getUpdatePostAttributesFromRequest($id, $request);
+        $post = $postService->updatePost($postAttributes);
 
         $post->tags()->sync(request('tags'));
 
@@ -175,9 +173,8 @@ class PostsController extends Controller
      */
     public function getDeletePost($post_id, PostService $postService)
     {
-        $attributes = $this->getUserId();
-        $post = $postService->deletePost($attributes)->findOrFail($post_id);
-        $post->delete();
+        $attributes = $this->getDeletePostAttributesFromRequest($post_id);
+        $postService->deletePost($attributes);
 
         Cache::delete($this->generatePostKey($post_id));
         Cache::flush();
