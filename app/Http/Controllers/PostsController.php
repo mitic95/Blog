@@ -58,15 +58,6 @@ class PostsController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return string
-     */
-    public function generatePostKey(int $id): string
-    {
-        return 'post_' . $id;
-    }
-
-    /**
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

@@ -65,4 +65,13 @@ abstract class Controller extends BaseController
     {
         return Auth::user();
     }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function generatePostKey(int $id): string
+    {
+        return 'post_' . $id;
+    }
 }

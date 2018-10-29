@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PostService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Http\Resources\Post as PostResource;
@@ -44,6 +45,9 @@ class PostsApiController extends Controller
         $postAttributes = $this->getCreatePostAttributesFromRequest($request);
         $post = $postService->createPost($postAttributes);
 
+        Cache::delete('posts_order_by_created_at_1');
+        Cache::flush();
+
         return new PostResource($post);
     }
 
@@ -58,6 +62,9 @@ class PostsApiController extends Controller
         $postAttributes = $this->getUpdatePostAttributesFromRequest($id, $request);
         $post = $postService->updatePost($postAttributes);
 
+        Cache::delete($this->generatePostKey($id));
+        Cache::flush();
+
         return new PostResource($post);
     }
 
@@ -70,6 +77,9 @@ class PostsApiController extends Controller
     {
         $attributes = $this->getDeletePostAttributes($post_id);
         $post = $postService->deletePost($attributes);
+
+        Cache::delete($this->generatePostKey($post_id));
+        Cache::flush();
 
         return new PostResource($post);
     }
