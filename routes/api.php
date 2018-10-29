@@ -33,7 +33,7 @@ Route::group([
         Route::get('user', 'AuthController@user');
 
         Route::put('/posts/{id}/edit', 'PostsApiController@update');
-        Route::get('/posts/delete-post/{post_id}', 'PostsApiController@getDeletePost')->name('post-delete');
+        Route::delete('/posts/delete-post/{post_id}', 'PostsApiController@getDeletePost')->name('post-delete');
         Route::post('/posts', 'PostsApiController@store');
     });
 });
