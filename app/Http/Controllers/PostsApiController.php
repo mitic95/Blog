@@ -68,7 +68,7 @@ class PostsApiController extends Controller
      */
     public function getDeletePost($post_id, PostService $postService)
     {
-        $attributes = $this->getDeletePostAttributesFromRequest($post_id);
+        $attributes = $this->getDeletePostAttributes($post_id);
         $post = $postService->deletePost($attributes);
 
         return new PostResource($post);

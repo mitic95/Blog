@@ -173,7 +173,7 @@ class PostsController extends Controller
      */
     public function getDeletePost($post_id, PostService $postService)
     {
-        $attributes = $this->getDeletePostAttributesFromRequest($post_id);
+        $attributes = $this->getDeletePostAttributes($post_id);
         $postService->deletePost($attributes);
 
         Cache::delete($this->generatePostKey($post_id));

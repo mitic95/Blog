@@ -50,7 +50,7 @@ abstract class Controller extends BaseController
      * @param $post_id
      * @return array
      */
-    public function getDeletePostAttributesFromRequest($post_id)
+    public function getDeletePostAttributes($post_id)
     {
         return [
             'user_id' => $this->getAuthUser()->id,
