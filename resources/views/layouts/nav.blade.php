@@ -5,7 +5,7 @@
             <a class="nav-link" href="#">New features</a>
             <a class="nav-link" href="#">Press</a>
 
-            @if(Auth::check())
+            @auth
                 <a class="nav-link" href="{{ route('create') }}">Create Post</a>
                 <a class="nav-link" href="{{ route('lists') }}">lists</a>
                 <a class="nav-link" href="{{ route('profile') }}">Profile</a>
@@ -14,13 +14,12 @@
                     <img class="rounded-circle" src="/storage/avatars/{{ Auth::user()->avatar }}" height="25" width="35">
                     {{ Auth::user()->name }}
                 </a>
+            @endauth
 
-            @else
-
+            @guest
                     <a class="nav-link" href="{{ route('login') }}">Login</a>
                     <a class="nav-link" href="{{ route('register') }}">Register</a>
-
-            @endif
+            @endguest
 
         </nav>
     </div>

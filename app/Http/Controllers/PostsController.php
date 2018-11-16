@@ -65,11 +65,7 @@ class PostsController extends Controller
     {
         $post = Cache::remember($this->generatePostKey($id), 20, function () use ($id)
         {
-            if (Cache::has($this->generatePostKey($id) . $id)) {
-                return Cache::get($this->generatePostKey($id) . $id);
-            } else {
-                return Post::find($id);
-            }
+            return Post::find($id);
         });
 
         return view('posts.show', compact('post'));
