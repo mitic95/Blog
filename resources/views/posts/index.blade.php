@@ -6,7 +6,7 @@
 
         <div class="col-sm-offset-12" id="products">
 
-            {!! $posts->links() !!}
+            {{$posts->links("pagination::bootstrap-4")}}
 
             @foreach($posts as $post)
 
@@ -14,7 +14,7 @@
 
             @endforeach
 
-            {!! $posts->links() !!}
+            {{$posts->links("pagination::bootstrap-4")}}
 
         </div>
 

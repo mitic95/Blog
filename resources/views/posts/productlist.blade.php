@@ -1,4 +1,4 @@
-{!! $list->links() !!}
+{{$list->links("pagination::bootstrap-4")}}
 
 @foreach($list as $lists)
 
@@ -6,4 +6,4 @@
 
 @endforeach
 
-{!! $list->links() !!}
+{{$list->links("pagination::bootstrap-4")}}

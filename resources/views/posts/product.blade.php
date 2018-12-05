@@ -1,4 +1,4 @@
-{!! $posts->links() !!}
+{{$posts->links("pagination::bootstrap-4")}}
 
 @foreach($posts as $post)
 
@@ -6,4 +6,4 @@
 
 @endforeach
 
-{!! $posts->links() !!}
+{{$posts->links("pagination::bootstrap-4")}}
