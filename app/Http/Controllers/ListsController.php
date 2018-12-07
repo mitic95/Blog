@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class ListsController extends Controller
 {
     /**
-     * ListsController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show']);
-    }
-
-    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function lists()

@@ -12,7 +12,7 @@
 
     <p class="blog-post-meta">
 
-        {{ $post->user->name }} on
+        <a href="#">{{ $post->user->name }}</a> on
 
         {{ $post->created_at->toFormattedDateString() }}
 

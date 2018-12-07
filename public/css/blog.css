@@ -24,6 +24,12 @@ h6, .h6 {
     color: #333;
 }
 
+/*
+* Remove dot from all ul,li
+*/
+ul,li {
+    list-style-type: none;
+}
 
 /*
  * Override Bootstrap's default container.
@@ -123,6 +129,25 @@ h6, .h6 {
     margin-bottom: 0;
 }
 
+.sidebar-module a {
+    text-decoration: none;
+}
+
+#sidebar-tag li {
+    margin-bottom: 12px;
+}
+
+#sidebar-tag li a {
+    color: black;
+    padding: 5px;
+    border: 1px solid #c5c5c5;
+    background: rgb(228, 221, 227);
+    box-shadow: 2px 2px #9c9c9c;
+}
+
+#sidebar-tag li a:hover {
+    background: #d2d2d2;
+}
 
 /* Pagination */
 .blog-pagination {
@@ -163,4 +188,62 @@ h6, .h6 {
 }
 .blog-footer p:last-child {
     margin-bottom: 0;
+}
+
+#products a {
+    text-decoration: none;
+}
+
+#show-page-link li {
+    margin-bottom:15px;
+}
+
+#show-page-link li a {
+    color: black;
+    padding: 5px;
+    margin: 2px;
+    border: 1px solid #c5c5c5;
+    background: rgb(228, 221, 227);
+    text-decoration: none;
+    box-shadow: 2px 2px #9c9c9c;
+}
+
+#show-page-link li a:hover {
+    background: #d2d2d2;
+}
+
+#show-tag h3 {
+    margin-bottom: 20px;
+}
+
+#show-del-ed a {
+    color: #fff;
+    background: #428bca;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#show-del-ed a:hover {
+    background: #4baff7;
+}
+
+.profile-link {
+    padding: 0 0 3px 0;
+    background: #fff;
+    float: left;
+}
+
+.div-strong {
+    float: right;
+}
+
+#comment-body {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.author-post a {
+    padding: 2px 5px 5px 2px;
+    text-decoration: none;
+    color: #000;
 }

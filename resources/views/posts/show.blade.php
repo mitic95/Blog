@@ -5,38 +5,44 @@
     <div class="col-sm-8 blog-mail">
 
         <h1>{{ $post->title }}</h1>
+        <div class="author-post">
+            Author of this post: <a href="#"><img class="rounded-circle" src="/storage/avatars/{{ $post->user->avatar }}" height="25" width="30"> <em>{{ $post->user->name }}</em></a>
+        </div>
+        <hr>
 
         @if(Auth::user() == $post->user)
 
-
-            <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-default">Delete</a>
-
-
-            <hr>
-
-
-            <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-default">Edit</a>
-
+            <div id="show-del-ed">
+                <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-default">Delete</a>
+                <br>
+                <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-default">Edit</a>
+            </div>
 
             <hr>
 
         @endif
 
-        @if(count($post->tags))
+        <div id="show-tag">
+        <h3>Tags:</h3>
+        </div>
 
-            @foreach($post->tags as $tag)
-                <li>
+        <div id="show-page-link">
+            @if(count($post->tags))
 
-                    <a href="/posts/tags/{{ $tag->name }}">
+                @foreach($post->tags as $tag)
+                    <li>
 
-                        {{ $tag->name }}
+                        <a href="/posts/tags/{{ $tag->name }}">
 
-                    </a>
+                            {{ $tag->name }}
 
-                </li>
-            @endforeach
+                        </a>
 
-        @endif
+                    </li>
+                @endforeach
+
+            @endif
+        </div>
 
         <hr>
 
@@ -48,23 +54,25 @@
             <ul>
             @foreach ($post->comments as $comment)
                     <li class="list-group-item">
-
                         <div class="form-control">
+                            <a href="#">
+                                <div class="profile-link">
+                                    <img class="rounded-circle" src="/storage/avatars/{{ $comment->user->avatar }}" height="35" width="45"> <em>{{ $comment->user->name }}</em>
+                                </div>
+                            </a>
 
-                        Username:{{ $comment->user->name }}
+                            <div class="div-strong">
+                                <strong>
+                                    {{ $comment->created_at->diffForHumans() }} &nbsp;
+                                </strong>
+                            </div>
 
-                        <br>
+                            <div class="form-control" id="comment-body">
 
-                        <strong>
-                            {{ $comment->created_at->diffForHumans() }}: &nbsp;
-                        </strong>
+                                {{ $comment->body }}
 
-                        <div class="form-control">
-
-                            {{ $comment->body }}
-
+                            </div>
                         </div>
-
                     </li>
                 @endforeach
             </ul>

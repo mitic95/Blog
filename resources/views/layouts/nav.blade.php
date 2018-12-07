@@ -2,8 +2,9 @@
     <div class="container">
         <nav class="nav blog-nav">
             <a class="nav-link active" href="{{ route('home') }}">Home</a>
-            <a class="nav-link" href="#">New features</a>
-            <a class="nav-link" href="#">Press</a>
+            <a class="nav-link" href="#">About Us</a>
+            <a class="nav-link" href="#">Contact Us</a>
+            <a class="nav-link" href="#">Support</a>
 
             @auth
                 <a class="nav-link" href="{{ route('create') }}">Create Post</a>

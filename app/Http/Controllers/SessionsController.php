@@ -11,14 +11,6 @@ use Illuminate\Http\Request;
 class SessionsController extends Controller
 {
     /**
-     * SessionsController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('guest',['except' => 'destroy']);
-    }
-
-    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()

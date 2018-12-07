@@ -26,7 +26,7 @@
     </div>
 
 
-    <div class="sidebar-module">
+    <div class="sidebar-module" id="sidebar-tag">
         <h4>Tags</h4>
         <ol class="list-unstyled">
 

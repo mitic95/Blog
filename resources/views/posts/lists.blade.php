@@ -10,8 +10,6 @@
 
 <p class="blog-post-meta">
 
-    {{ $lists->user->name }} on
-
     {{ $lists->created_at->toFormattedDateString() }}
 
 </p>

@@ -16,14 +16,6 @@ use Illuminate\Support\Facades\Cache;
 class PostsController extends Controller
 {
     /**
-     * PostsController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show', 'ajax']);
-    }
-
-    /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
