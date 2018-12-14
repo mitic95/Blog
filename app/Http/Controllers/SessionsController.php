@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SessionsController
@@ -15,6 +16,10 @@ class SessionsController extends Controller
      */
     public function create()
     {
+        if (Auth::user()){
+            return redirect()->home();
+        }
+
         return view('sessions.create');
     }
 
@@ -23,6 +28,10 @@ class SessionsController extends Controller
      */
     public function store()
     {
+        if (Auth::user()){
+            return redirect()->home();
+        }
+
         // Attempt to authenticate the user.
         // If not, redirect back.
         // If so, sign them in.

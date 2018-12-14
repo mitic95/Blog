@@ -1,17 +1,19 @@
-<h2>
+<div class="blog-post">
+    <h2>
 
-    <a href="/posts/{{ $lists->id }}">
+        <a href="/posts/{{ $lists->id }}">
 
-        {{ $lists->title }}
+            {{ $lists->title }}
 
-    </a>
+        </a>
 
-</h2>
+    </h2>
 
-<p class="blog-post-meta">
+    <p class="blog-post-meta">
 
-    {{ $lists->created_at->toFormattedDateString() }}
+        {{ $lists->created_at->toFormattedDateString() }}
 
-</p>
+    </p>
 
-{{ $lists->body }}
+    {{ $lists->body }}
+</div>

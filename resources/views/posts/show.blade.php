@@ -6,7 +6,7 @@
 
         <h1>{{ $post->title }}</h1>
         <div class="author-post">
-            Author of this post: <a href="#"><img class="rounded-circle" src="/storage/avatars/{{ $post->user->avatar }}" height="25" width="30"> <em>{{ $post->user->name }}</em></a>
+            Author of this post: <a href="{{ route('author', ['id' => $post->user->id]) }}"><img class="rounded-circle" src="/storage/avatars/{{ $post->user->avatar }}" height="25" width="30"> <em>{{ $post->user->name }}</em></a>
         </div>
         <hr>
 
@@ -55,7 +55,7 @@
             @foreach ($post->comments as $comment)
                     <li class="list-group-item">
                         <div class="form-control">
-                            <a href="#">
+                            <a href="{{ route('author', ['id' => $comment->user->id]) }}">
                                 <div class="profile-link">
                                     <img class="rounded-circle" src="/storage/avatars/{{ $comment->user->avatar }}" height="35" width="45"> <em>{{ $comment->user->name }}</em>
                                 </div>

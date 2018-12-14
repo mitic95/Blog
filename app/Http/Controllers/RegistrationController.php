@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrationForm;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RegistrationController
@@ -15,6 +16,9 @@ class RegistrationController extends Controller
      */
     public function create()
     {
+        if (Auth::user()){
+            return redirect()->home();
+        }
         return view('registration.create');
     }
 
@@ -24,6 +28,10 @@ class RegistrationController extends Controller
      */
     public function store(RegistrationForm $form)
     {
+        if (Auth::user()){
+            return redirect()->home();
+        }
+
         $form->persist();
 
         session()->flash('message', 'Thanks so much for singig up!');

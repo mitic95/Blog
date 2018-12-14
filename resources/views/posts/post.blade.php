@@ -2,7 +2,7 @@
 
     <h2 class="blog-post-title">
 
-        <a href="/posts/{{ $post->id }}">
+        <a href="{{ route('show', ['id' => $post->user->id]) }}">
 
         {{ $post->title }}
 
@@ -12,7 +12,7 @@
 
     <p class="blog-post-meta">
 
-        <a href="#">{{ $post->user->name }}</a> on
+        <a href="{{ route('author', ['id' => $post->user->id]) }}">{{ $post->user->name }}</a> on
 
         {{ $post->created_at->toFormattedDateString() }}
 
