@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Post;
+use App\User;
 
 /**
  * Class PostService
@@ -37,6 +38,19 @@ class PostService
         $post->save();
 
         return $post;
+    }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function updateUser(array $attributes)
+    {
+        $id = $attributes['id'];
+        $user = User::where('id', $id)->findOrFail($id);
+        $user->name = $attributes['name'];
+
+        return $user;
     }
 
     /**

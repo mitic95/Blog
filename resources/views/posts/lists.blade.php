@@ -11,6 +11,8 @@
 
     <p class="blog-post-meta">
 
+        <i style="color: #4b4b4b">{{ $lists->user->name }}</i>
+
         {{ $lists->created_at->toFormattedDateString() }}
 
     </p>

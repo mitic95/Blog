@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,26 @@ class UserProfileController extends Controller
 
             $user = Auth::User();
             $user->avatar = $filename;
+            $user->save();
+        }
+
+        return view('posts.profile', compact('user'));
+    }
+
+    /**
+     * @param Request $request
+     * @param PostService $postService
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function update_name(Request $request, PostService $postService)
+    {
+        $this->validate($request, [
+            'name' => 'required|string|min:2|max:30'
+        ]);
+
+        if($request->has('name')){
+            $userAttributes = $this->getUpdateUserAttributesFromRequest($request);
+            $user = $postService->updateUser($userAttributes);
             $user->save();
         }
 

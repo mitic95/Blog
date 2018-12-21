@@ -5,6 +5,9 @@
     <div class="col-sm-8 blog-mail">
 
         <h1>{{ $post->title }}</h1>
+
+        <br>
+
         <div class="author-post">
             Author of this post: <a href="{{ route('author', ['id' => $post->user->id]) }}"><img class="rounded-circle" src="/storage/avatars/{{ $post->user->avatar }}" height="25" width="30"> <em>{{ $post->user->name }}</em></a>
         </div>
@@ -13,9 +16,9 @@
         @if(Auth::user() == $post->user)
 
             <div id="show-del-ed">
-                <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-default">Delete</a>
+                <a href="{{ route('post-delete', ['post_id' => $post->id]) }}" class="btn btn-primary">Delete</a>
                 <br>
-                <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-default">Edit</a>
+                <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-primary">Edit</a>
             </div>
 
             <hr>
@@ -23,7 +26,7 @@
         @endif
 
         <div id="show-tag">
-        <h3>Tags:</h3>
+            <h3>Tags:</h3>
         </div>
 
         <div id="show-page-link">
@@ -54,7 +57,7 @@
             <ul>
             @foreach ($post->comments as $comment)
                     <li class="list-group-item">
-                        <div class="form-control">
+                        <div class="form-control" id="profile-name">
                             <a href="{{ route('author', ['id' => $comment->user->id]) }}">
                                 <div class="profile-link">
                                     <img class="rounded-circle" src="/storage/avatars/{{ $comment->user->avatar }}" height="35" width="45"> <em>{{ $comment->user->name }}</em>

@@ -47,6 +47,18 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @return array
+     */
+    public function getUpdateUserAttributesFromRequest(Request $request)
+    {
+        return [
+            'id' => $this->getAuthUser()->id,
+            'name' => $request->input('name')
+        ];
+    }
+
+    /**
      * @param $post_id
      * @return array
      */

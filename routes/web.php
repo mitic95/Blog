@@ -34,4 +34,5 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/lists', 'ListsController@lists')->name('lists');
     Route::get('/lists/ajax/products', 'ListsController@ajax');
     Route::get('/delete-post/{post_id}', 'PostsController@getDeletePost')->name('post-delete');
+    Route::post('/profile/name', 'UserProfileController@update_name')->name('update_name');
 });

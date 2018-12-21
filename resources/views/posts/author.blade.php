@@ -4,7 +4,9 @@
 
     <div class="col-sm-8 blog-main">
 
-        <h2 style="margin-bottom: 40px; color: #5e5d5d;">{{ $authorName->name }}`s Posts</h2>
+        <div class="author-img">
+            <img class="rounded-circle" src="/storage/avatars/{{ $authorName->avatar }}"> <em><b>{{ $authorName->name }}`s Posts</b></em>
+        </div>
 
         <div class="col-sm-offset-12" id="products">
 
@@ -42,15 +44,6 @@
 
                 });
             }
-
-            //function getProducts(page) {
-            //$.get( "/ajax/products/" + page, function( data ) {
-            //$("#products").html();
-            //for(var i = 0; i < data.length; i++) {
-            //$('#products').append('<h3>' + data[i] + '</h3>')
-            //}
-            //});
-            //}
 
         </script>
 

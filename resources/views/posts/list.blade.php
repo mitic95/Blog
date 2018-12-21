@@ -41,15 +41,6 @@
                 });
             }
 
-            //function getProducts(page) {
-            //$.get( "/ajax/products/" + page, function( data ) {
-            //$("#products").html();
-            //for(var i = 0; i < data.length; i++) {
-            //$('#products').append('<h3>' + data[i] + '</h3>')
-            //}
-            //});
-            //}
-
         </script>
 
     </div><!-- /.blog-main -->

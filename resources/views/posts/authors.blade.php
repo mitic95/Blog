@@ -10,6 +10,8 @@
 
     <p class="blog-post-meta">
 
+        <em>{{ $authors->user->name }}</em> on
+
         {{ $authors->created_at->toFormattedDateString() }}
 
     </p>

@@ -2,7 +2,7 @@
 
     <h2 class="blog-post-title">
 
-        <a href="{{ route('show', ['id' => $post->user->id]) }}">
+        <a href="{{ route('show', ['id' => $post->id]) }}">
 
         {{ $post->title }}
 
@@ -18,6 +18,7 @@
 
     </p>
 
-    {{ $post->body }}
-
+    <p class="blog-post-body">
+        {{ $post->body }}
+    </p>
 </div>
