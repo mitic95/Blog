@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Tag;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -69,7 +71,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
 
         if (Auth::user() != $post->user) {
             return redirect()->home();
@@ -99,8 +101,13 @@ class PostsController extends Controller
     {
         $this->validate(request(), [
             'title' => 'required|max:30',
-            'body' => 'required'
+            'body' => 'required|min:5'
         ]);
+
+        // $request->validate([
+        // 'title' => 'required|max:30',
+        // 'body' => 'required|min:5'
+        // ]);
 
         $postAttributes = $this->getCreatePostAttributesFromRequest($request);
         $post = $postService->createPost($postAttributes);
@@ -142,7 +149,8 @@ class PostsController extends Controller
             'message', 'Your post has now updated!'
         );
 
-        return redirect('/');
+//        return redirect()->action('PostsController@show', ['id' => $id]);
+        return redirect()->route('show', ['id' => $id]);
     }
 
     /**
@@ -153,7 +161,17 @@ class PostsController extends Controller
     public function getDeletePost($post_id, PostService $postService)
     {
         $attributes = $this->getDeletePostAttributes($post_id);
-        $postService->deletePost($attributes);
+        $post = $postService->deletePost($attributes);
+
+        $postComments = Comment::where('post_id', $post_id)->get();
+
+        foreach($postComments as $comment){
+            if($comment){
+                $comment->delete();
+            }
+        }
+
+        $post->tags()->detach();
 
         Cache::delete($this->generatePostKey($post_id));
         Cache::flush();
@@ -162,25 +180,46 @@ class PostsController extends Controller
     }
 
     /**
-     * @param array $requestData
-     * @return string
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function buildPostsCacheKey(array $requestData)
+    public function about()
     {
-        $key = 'posts_order_by_created_at_';
+        return view('posts.about');
+    }
 
-        $page = 1;
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getContact()
+    {
+        return view('posts.contact');
+    }
 
-        if (array_key_exists('month', $requestData) && array_key_exists('year', $requestData)) {
-            $key .= $requestData['month'] . '_' . $requestData['year'] . '_';
-        }
+    public function postContact(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'subject' => 'required|min:3',
+            'message' => 'required|min:10'
+        ]);
 
-        if (array_key_exists('page', $requestData)) {
-            $page = $requestData['page'];
-        }
+        $data = array(
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'bodyMessage' => $request->message //zato sto promenjiva $messace vec postoji tako da moramo da damo drugi naziv
+        );
 
-        $key .= $page;
+        Mail::send('emails.contact', $data, function($message) use ($data){
+            $message->from($data['email']);
+            $message->to('marko.mitic@quantox.com');
+            $message->subject($data['subject']);
+        });
 
-        return $key;
+        //Session::flash('success', 'Your Email was Sent!'); // u ovo slucaju bi smo morali da koristimo facade: use Illuminate\Support\Facades\Session;
+        session()->flash(
+            'message', 'Your Email Was Sent!'
+        );
+
+        return redirect()->route('home');
     }
 }

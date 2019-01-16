@@ -66,7 +66,6 @@ class UserProfileController extends Controller
         if($request->has('name')){
             $userAttributes = $this->getUpdateUserAttributesFromRequest($request);
             $user = $postService->updateUser($userAttributes);
-            $user->save();
         }
 
         return view('posts.profile', compact('user'));

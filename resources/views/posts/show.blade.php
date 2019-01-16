@@ -57,17 +57,27 @@
             <ul>
             @foreach ($post->comments as $comment)
                     <li class="list-group-item">
-                        <div class="form-control" id="profile-name">
-                            <a href="{{ route('author', ['id' => $comment->user->id]) }}">
-                                <div class="profile-link">
-                                    <img class="rounded-circle" src="/storage/avatars/{{ $comment->user->avatar }}" height="35" width="45"> <em>{{ $comment->user->name }}</em>
-                                </div>
-                            </a>
+                        <div class="form-control">
+                            <div class="profile-name">
+                                <a href="{{ route('author', ['id' => $comment->user->id]) }}">
+                                    <div class="profile-link">
+                                        <img class="rounded-circle" src="/storage/avatars/{{ $comment->user->avatar }}" height="35" width="45"> <em>{{ $comment->user->name }}</em>
+                                    </div>
+                                </a>
+                            </div>
 
                             <div class="div-strong">
                                 <strong>
                                     {{ $comment->created_at->diffForHumans() }} &nbsp;
                                 </strong>
+
+                                @if(Auth::user() == $comment->user)
+                                    <div class="comment-edit-delete">
+                                        <a href="{{ route('edit_comment', ['id' => $comment->id]) }}">Edit</a>
+                                        <a href="{{ route('delete_comment', ['id' => $comment->id]) }}">Delete</a>
+                                    </div>
+                                @endif
+
                             </div>
 
                             <div class="form-control" id="comment-body">

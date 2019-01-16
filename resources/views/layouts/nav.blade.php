@@ -2,16 +2,15 @@
     <div class="container">
         <nav class="nav blog-nav">
             <a class="nav-link active" href="{{ route('home') }}">Home</a>
-            <a class="nav-link" href="#">About Us</a>
-            <a class="nav-link" href="#">Contact Us</a>
-            <a class="nav-link" href="#">Support</a>
+            <a class="nav-link" href="{{ route('about') }}">About Us</a>
             @auth
+                <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                 <a class="nav-link" href="{{ route('create') }}">Create Post</a>
                 <a class="nav-link" href="{{ route('lists') }}">My Posts</a>
                 <a class="nav-link" href="{{ route('logout') }}">Logout</a>
-                <a class="nav-link ml-auto" href="{{ route('profile') }}" style="position: relative; padding-left: 50px; overflow: hidden;">
+                <a class="nav-link ml-auto" href="{{ route('profile') }}">
                     <img class="rounded-circle" src="/storage/avatars/{{ Auth::user()->avatar }}" height="25" width="35">
-                    {{ Auth::user()->name }}
+                        {{ Auth::user()->name }}
                 </a>
             @endauth
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Comment;
 use App\Post;
 use App\User;
 
@@ -44,19 +45,6 @@ class PostService
      * @param array $attributes
      * @return mixed
      */
-    public function updateUser(array $attributes)
-    {
-        $id = $attributes['id'];
-        $user = User::where('id', $id)->findOrFail($id);
-        $user->name = $attributes['name'];
-
-        return $user;
-    }
-
-    /**
-     * @param array $attributes
-     * @return mixed
-     */
     public function deletePost(array $attributes)
     {
         $user_id = $attributes['user_id'];
@@ -65,5 +53,30 @@ class PostService
         $post->delete();
 
         return $post;
+    }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function updateUser(array $attributes)
+    {
+        $id = $attributes['id'];
+        $user = User::where('id', $id)->findOrFail($id);
+        $user->name = $attributes['name'];
+        $user->save();
+
+        return $user;
+    }
+
+    public function updateComment(array $attributes)
+    {
+        $id = $attributes['id'];
+        $user_id = $attributes['user_id'];
+        $comment = Comment::where('user_id', $user_id)->findOrFail($id);
+        $comment->body = $attributes['body'];
+        $comment->save();
+
+        return $comment;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Services\PostService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Comment;
 
@@ -35,5 +37,45 @@ class CommentsController extends Controller
         ]);
 
         return back();
+    }
+
+    public function editComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        if (Auth::user() != $comment->user) {
+            return redirect()->home();
+        }
+
+        return view('posts.editComment', compact('comment'));
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        if (Auth::user() != $comment->user) {
+            return redirect()->home();
+        }
+
+        $comment->delete();
+
+        return redirect()->back();
+    }
+
+    public function updateComment($id, Request $request, PostService $postService)
+    {
+        $this->validate($request, [
+            'body' => 'required'
+        ]);
+
+        $commentAttributes = $this->getUpdateCommentAttributesFromRequest($id, $request);
+        $comment = $postService->updateComment($commentAttributes);
+
+        session()->flash(
+            'message', 'Your comment has now updated!'
+        );
+
+        return redirect()->route('show', ['id' => $comment->post_id]);
     }
 }

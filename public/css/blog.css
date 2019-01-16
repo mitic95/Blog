@@ -9,7 +9,8 @@
 }
 
 body {
-    font-family: Georgia, "Times New Roman", Times, serif;
+    /* font-family: Georgia, "Times New Roman", Times, serif; */
+    font-family: 'Comfortaa', cursive;
     color: #555;
 }
 
@@ -19,7 +20,8 @@ h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-family: 'Comfortaa', cursive;
     font-weight: normal;
     color: #333;
 }
@@ -134,7 +136,7 @@ ul,li {
 }
 
 #sidebar-tag li {
-    margin-bottom: 12px;
+    margin-bottom: 18px;
 }
 
 #sidebar-tag li a {
@@ -201,7 +203,7 @@ ul,li {
 }
 
 #show-page-link li {
-    margin-bottom:15px;
+    margin-bottom:18px;
 }
 
 #show-page-link li a {
@@ -250,7 +252,7 @@ ul,li {
     color: #000;
 }
 
-#profile-name a {
+.profile-name a {
     color: #000;
 }
 
@@ -280,4 +282,8 @@ ul,li {
 
 #update-name {
     color: #767676;
+}
+
+.comment-edit-delete a {
+    text-decoration: none;
 }
