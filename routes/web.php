@@ -45,4 +45,5 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/comments/{id}/edit', 'CommentsController@editComment')->name('edit_comment');
     Route::post('/comments/{id}/edit', 'CommentsController@updateComment')->name('update_comment');
     Route::get('/delete-comment/{id}', 'CommentsController@deleteComment')->name('delete_comment');
+    Route::post('/like', 'PostsController@likePost')->name('like');
 });

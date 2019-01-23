@@ -25,12 +25,12 @@
 
         @endif
 
-        <div id="show-tag">
-            <h3>Tags:</h3>
-        </div>
-
         <div id="show-page-link">
             @if(count($post->tags))
+
+                <div id="show-tag">
+                    <h3>Tags:</h3>
+                </div>
 
                 @foreach($post->tags as $tag)
                     <li>
@@ -50,6 +50,13 @@
         <hr>
 
         {{ $post->body }}
+
+        <br>
+
+            <div class="interaction">
+                <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'}}</a>({{ $post->likes->where('like', 1)->count() }})
+                <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'}}</a>({{ $post->likes->where('like', 0)->count() }})
+            </div>
 
         <hr>
 
@@ -122,5 +129,32 @@
         </div>
 
     </div>
+
+    <script>
+
+        $('.like').on('click', function (event) {
+            var token = '{{ Session::token() }}';
+            var urlLike = '{{ route('like') }}';
+
+            event.preventDefault();
+            var postId = '{{ $post->id }}';
+            var isLike = event.target.previousElementSibling == null; // true or false
+            $.ajax({
+                method: 'POST',
+                url: urlLike,
+                data: {isLike: isLike, postId: postId, _token: token}
+            })
+                .done(function () {
+                    // Change the page (reload page)
+                    event.target.innerText = isLike ? event.target.innerText == 'Like' ? 'You like this post' : 'Like' : event.target.innerText == 'Dislike' ? 'Yout don\'t like this post' : 'Dislike';
+                    if (isLike){
+                        event.target.nextElementSibling.innerText = 'Dislike';
+                    } else {
+                        event.target.previousElementSibling.innerText = 'Like';
+                    }
+                });
+        });
+
+    </script>
 
 @endsection

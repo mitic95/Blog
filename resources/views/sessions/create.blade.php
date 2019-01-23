@@ -4,7 +4,7 @@
 
     <div class="col-md-8">
 
-        <h1>Sing In</h1>
+        <h1>Sign In</h1>
 
         <form method="POST" action="/login">
 
