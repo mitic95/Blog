@@ -196,6 +196,10 @@ class PostsController extends Controller
         return view('posts.contact');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postContact(Request $request)
     {
         $this->validate($request, [
@@ -224,6 +228,10 @@ class PostsController extends Controller
         return redirect()->route('home');
     }
 
+    /**
+     * @param Request $request
+     * @return null
+     */
     public function likePost(Request $request)
     {
         $post_id = $request['postId'];

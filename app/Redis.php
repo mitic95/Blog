@@ -7,7 +7,5 @@ namespace App;
  * @package App
  */
 class Redis {
-
     //
-
 }

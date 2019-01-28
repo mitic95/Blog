@@ -69,6 +69,10 @@ class PostService
         return $user;
     }
 
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
     public function updateComment(array $attributes)
     {
         $id = $attributes['id'];

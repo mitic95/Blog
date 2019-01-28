@@ -39,6 +39,10 @@ class CommentsController extends Controller
         return back();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function editComment($id)
     {
         $comment = Comment::findOrFail($id);
@@ -50,6 +54,10 @@ class CommentsController extends Controller
         return view('posts.editComment', compact('comment'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteComment($id)
     {
         $comment = Comment::findOrFail($id);
@@ -63,6 +71,12 @@ class CommentsController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @param PostService $postService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateComment($id, Request $request, PostService $postService)
     {
         $this->validate($request, [

@@ -78,6 +78,9 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function likes()
     {
         return $this->hasMany(Like::class);
