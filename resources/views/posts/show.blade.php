@@ -54,8 +54,14 @@
         <br>
 
             <div class="interaction">
-                <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'}}</a>({{ $post->likes->where('like', 1)->count() }})
-                <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'}}</a>({{ $post->likes->where('like', 0)->count() }})
+                @auth()
+                    <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'}}</a>({{ $post->likes->where('like', 1)->count() }})
+                    <a class="like" href="#">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 0 ? 'You don\'t like this post' : 'Dislike' : 'Dislike'}}</a>({{ $post->likes->where('like', 0)->count() }})
+                @endauth
+                @guest()
+                    <a href="{{ route('login') }}">Like</a>({{ $post->likes->where('like', 1)->count() }})
+                    <a href="{{ route('login') }}">Dislike</a>({{ $post->likes->where('like', 0)->count() }})
+                @endguest
             </div>
 
         <hr>

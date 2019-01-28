@@ -60,7 +60,7 @@ class PostsController extends Controller
     {
         $post = Cache::remember($this->generatePostKey($id), 20, function () use ($id)
         {
-            return Post::find($id);
+            return Post::findOrFail($id);
         });
 
         return view('posts.show', compact('post'));
@@ -235,14 +235,9 @@ class PostsController extends Controller
     public function likePost(Request $request)
     {
         $post_id = $request['postId'];
-        $is_like = $request['isLike'] === 'true';
+        $is_like = $request['isLike'] == 'true';
         $update = false;
-
-        $post = Post::find($post_id);
-        if (!$post){
-            return null;
-        }
-
+        $post = Post::findOrFail($post_id);
         $user = Auth::user();
         $like = $user->likes()->where('post_id', $post_id)->first();
         if ($like){
