@@ -14,9 +14,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    const ADMIN_TYPE = 'admin';
-    const DEFAULT_TYPE = 'default';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -60,10 +57,5 @@ class User extends Authenticatable
         // 'body' => request('body'),
         // 'user_id' => auth()->id()
         // ]);
-    }
-
-    public function isAdmin()
-    {
-        return $this->type === self::ADMIN_TYPE;
     }
 }

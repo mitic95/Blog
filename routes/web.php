@@ -27,9 +27,6 @@ Route::get('/contact', 'PostsController@getContact')->name('contact');
 Route::post('/contact', 'PostsController@postContact')->name('contact');
 
 Route::middleware(['auth:web'])->group(function () {
-    Route::middleware(['is_admin'])->group(function () {
-        Route::get('/admin/dashboard', 'AdminController@adminDashboard');
-    });
     Route::get('/create/posts', 'PostsController@create')->name('create');
     Route::post('/posts', 'PostsController@store');
     Route::post('/posts/{post}/comments', 'CommentsController@store');
