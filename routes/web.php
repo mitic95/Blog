@@ -23,8 +23,6 @@ Route::post('/login', 'SessionsController@store');
 Route::get('/author/{id}', 'AuthorController@index')->name('author');
 Route::get('/author/{id}/ajax/products', 'AuthorController@ajax');
 Route::get('/about', 'PostsController@about')->name('about');
-Route::get('/contact', 'PostsController@getContact')->name('contact');
-Route::post('/contact', 'PostsController@postContact')->name('contact');
 
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/create/posts', 'PostsController@create')->name('create');
@@ -42,5 +40,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/comments/{id}/edit', 'CommentsController@editComment')->name('edit_comment');
     Route::post('/comments/{id}/edit', 'CommentsController@updateComment')->name('update_comment');
     Route::get('/delete-comment/{id}', 'CommentsController@deleteComment')->name('delete_comment');
+    Route::get('/contact', 'PostsController@getContact')->name('contact');
+    Route::post('/contact', 'PostsController@postContact')->name('contact');
     Route::post('/like', 'PostsController@likePost')->name('like');
 });
